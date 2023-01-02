@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OTOBUSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cinsiyet_Tablosu">
+          <Key>
+            <PropertyRef Name="CinsiyetID" />
+          </Key>
+          <Property Name="CinsiyetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cinsiyet" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="GünlükRapor">
+          <Key>
+            <PropertyRef Name="RaporID" />
+          </Key>
+          <Property Name="RaporID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OtobusID" Type="int" />
+          <Property Name="Tarih" Type="datetime2" Precision="7" />
+          <Property Name="ToplamHasilat" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Koltuklar_Tablosu">
+          <Key>
+            <PropertyRef Name="KoltukID" />
+          </Key>
+          <Property Name="KoltukID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FiyatBilgisi" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="OtobusBilgi_Tablosu">
+          <Key>
+            <PropertyRef Name="OtobusID" />
+          </Key>
+          <Property Name="OtobusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OtobusModel" Type="nvarchar" MaxLength="20" />
+          <Property Name="OtobusPlaka" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="OtobusKoltukDuzeni_Tablosu">
+          <Key>
+            <PropertyRef Name="RezervID" />
+          </Key>
+          <Property Name="RezervID" Type="int" Nullable="false" />
+          <Property Name="OtobusID" Type="int" />
+          <Property Name="KoltukID" Type="int" />
+        </EntityType>
+        <EntityType Name="Sefer_Tablosu">
+          <Key>
+            <PropertyRef Name="SehirID" />
+          </Key>
+          <Property Name="SehirID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sehir" Type="nvarchar" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="SeferBilgisi_Tablosu">
+          <Key>
+            <PropertyRef Name="InfoID" />
+          </Key>
+          <Property Name="InfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RezervID" Type="int" />
+          <Property Name="KalkisYeriID" Type="int" />
+          <Property Name="VarisYeriID" Type="int" />
+          <Property Name="CinsiyetID" Type="int" />
+          <Property Name="AdSoyad" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__GünlükRap__Otobu__3B75D760">
+          <End Role="OtobusBilgi_Tablosu" Type="Self.OtobusBilgi_Tablosu" Multiplicity="0..1" />
+          <End Role="GünlükRapor" Type="Self.GünlükRapor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusBilgi_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Principal>
+            <Dependent Role="GünlükRapor">
+              <PropertyRef Name="OtobusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OtobusKol__Koltu__2D27B809">
+          <End Role="Koltuklar_Tablosu" Type="Self.Koltuklar_Tablosu" Multiplicity="0..1" />
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koltuklar_Tablosu">
+              <PropertyRef Name="KoltukID" />
+            </Principal>
+            <Dependent Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="KoltukID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OtobusKol__Otobu__2C3393D0">
+          <End Role="OtobusBilgi_Tablosu" Type="Self.OtobusBilgi_Tablosu" Multiplicity="0..1" />
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusBilgi_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Principal>
+            <Dependent Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Cinsi__628FA481">
+          <End Role="Cinsiyet_Tablosu" Type="Self.Cinsiyet_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cinsiyet_Tablosu">
+              <PropertyRef Name="CinsiyetID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="CinsiyetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Kalki__60A75C0F">
+          <End Role="Sefer_Tablosu" Type="Self.Sefer_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sefer_Tablosu">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="KalkisYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Rezer__5FB337D6">
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="RezervID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="RezervID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Varis__619B8048">
+          <End Role="Sefer_Tablosu" Type="Self.Sefer_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sefer_Tablosu">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="VarisYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="RAPOR_BAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OtobusID" Type="int" Mode="In" />
+          <Parameter Name="Tarih" Type="datetime2" Mode="In" />
+          <Parameter Name="Hasilat" Type="decimal" Mode="In" />
+        </Function>
+        <EntityContainer Name="OTOBUSDBModelStoreContainer">
+          <EntitySet Name="Cinsiyet_Tablosu" EntityType="Self.Cinsiyet_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GünlükRapor" EntityType="Self.GünlükRapor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Koltuklar_Tablosu" EntityType="Self.Koltuklar_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OtobusBilgi_Tablosu" EntityType="Self.OtobusBilgi_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OtobusKoltukDuzeni_Tablosu" EntityType="Self.OtobusKoltukDuzeni_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sefer_Tablosu" EntityType="Self.Sefer_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeferBilgisi_Tablosu" EntityType="Self.SeferBilgisi_Tablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__GünlükRap__Otobu__3B75D760" Association="Self.FK__GünlükRap__Otobu__3B75D760">
+            <End Role="OtobusBilgi_Tablosu" EntitySet="OtobusBilgi_Tablosu" />
+            <End Role="GünlükRapor" EntitySet="GünlükRapor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OtobusKol__Koltu__2D27B809" Association="Self.FK__OtobusKol__Koltu__2D27B809">
+            <End Role="Koltuklar_Tablosu" EntitySet="Koltuklar_Tablosu" />
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OtobusKol__Otobu__2C3393D0" Association="Self.FK__OtobusKol__Otobu__2C3393D0">
+            <End Role="OtobusBilgi_Tablosu" EntitySet="OtobusBilgi_Tablosu" />
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Cinsi__628FA481" Association="Self.FK__SeferBilg__Cinsi__628FA481">
+            <End Role="Cinsiyet_Tablosu" EntitySet="Cinsiyet_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Kalki__60A75C0F" Association="Self.FK__SeferBilg__Kalki__60A75C0F">
+            <End Role="Sefer_Tablosu" EntitySet="Sefer_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Rezer__5FB337D6" Association="Self.FK__SeferBilg__Rezer__5FB337D6">
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Varis__619B8048" Association="Self.FK__SeferBilg__Varis__619B8048">
+            <End Role="Sefer_Tablosu" EntitySet="Sefer_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OTOBUSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GünlükRapor">
+          <Key>
+            <PropertyRef Name="RaporID" />
+          </Key>
+          <Property Name="RaporID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OtobusID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="7" />
+          <Property Name="ToplamHasilat" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="OtobusBilgi_Tablosu" Relationship="Self.FK__GünlükRap__Otobu__3B75D760" FromRole="GünlükRapor" ToRole="OtobusBilgi_Tablosu" />
+        </EntityType>
+        <EntityType Name="Koltuklar_Tablosu">
+          <Key>
+            <PropertyRef Name="KoltukID" />
+          </Key>
+          <Property Name="KoltukID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FiyatBilgisi" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="OtobusKoltukDuzeni_Tablosu" Relationship="Self.FK__OtobusKol__Koltu__2D27B809" FromRole="Koltuklar_Tablosu" ToRole="OtobusKoltukDuzeni_Tablosu" />
+        </EntityType>
+        <EntityType Name="OtobusBilgi_Tablosu">
+          <Key>
+            <PropertyRef Name="OtobusID" />
+          </Key>
+          <Property Name="OtobusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OtobusModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OtobusPlaka" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GünlükRapor" Relationship="Self.FK__GünlükRap__Otobu__3B75D760" FromRole="OtobusBilgi_Tablosu" ToRole="GünlükRapor" />
+          <NavigationProperty Name="OtobusKoltukDuzeni_Tablosu" Relationship="Self.FK__OtobusKol__Otobu__2C3393D0" FromRole="OtobusBilgi_Tablosu" ToRole="OtobusKoltukDuzeni_Tablosu" />
+        </EntityType>
+        <EntityType Name="OtobusKoltukDuzeni_Tablosu">
+          <Key>
+            <PropertyRef Name="RezervID" />
+          </Key>
+          <Property Name="RezervID" Type="Int32" Nullable="false" />
+          <Property Name="OtobusID" Type="Int32" />
+          <Property Name="KoltukID" Type="Int32" />
+          <NavigationProperty Name="Koltuklar_Tablosu" Relationship="Self.FK__OtobusKol__Koltu__2D27B809" FromRole="OtobusKoltukDuzeni_Tablosu" ToRole="Koltuklar_Tablosu" />
+          <NavigationProperty Name="OtobusBilgi_Tablosu" Relationship="Self.FK__OtobusKol__Otobu__2C3393D0" FromRole="OtobusKoltukDuzeni_Tablosu" ToRole="OtobusBilgi_Tablosu" />
+          <NavigationProperty Name="SeferBilgisi_Tablosu" Relationship="Self.FK__SeferBilg__Rezer__36B12243" FromRole="OtobusKoltukDuzeni_Tablosu" ToRole="SeferBilgisi_Tablosu" />
+        </EntityType>
+        <EntityType Name="Sefer_Tablosu">
+          <Key>
+            <PropertyRef Name="SehirID" />
+          </Key>
+          <Property Name="SehirID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sehir" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SeferBilgisi_Tablosu" Relationship="Self.FK__SeferBilg__Kalki__37A5467C" FromRole="Sefer_Tablosu" ToRole="SeferBilgisi_Tablosu" />
+          <NavigationProperty Name="SeferBilgisi_Tablosu1" Relationship="Self.FK__SeferBilg__Varis__38996AB5" FromRole="Sefer_Tablosu" ToRole="SeferBilgisi_Tablosu" />
+        </EntityType>
+        <EntityType Name="SeferBilgisi_Tablosu">
+          <Key>
+            <PropertyRef Name="InfoID" />
+          </Key>
+          <Property Name="InfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RezervID" Type="Int32" />
+          <Property Name="KalkisYeriID" Type="Int32" />
+          <Property Name="VarisYeriID" Type="Int32" />
+          <Property Name="AdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OtobusKoltukDuzeni_Tablosu" Relationship="Self.FK__SeferBilg__Rezer__36B12243" FromRole="SeferBilgisi_Tablosu" ToRole="OtobusKoltukDuzeni_Tablosu" />
+          <NavigationProperty Name="Sefer_Tablosu" Relationship="Self.FK__SeferBilg__Kalki__37A5467C" FromRole="SeferBilgisi_Tablosu" ToRole="Sefer_Tablosu" />
+          <NavigationProperty Name="Sefer_Tablosu1" Relationship="Self.FK__SeferBilg__Varis__38996AB5" FromRole="SeferBilgisi_Tablosu" ToRole="Sefer_Tablosu" />
+          <Property Name="CinsiyetID" Type="Int32" />
+          <NavigationProperty Name="Cinsiyet_Tablosu" Relationship="OTOBUSDBModel.FK__SeferBilg__Cinsi__628FA481" FromRole="SeferBilgisi_Tablosu" ToRole="Cinsiyet_Tablosu" />
+        </EntityType>
+        <Association Name="FK__GünlükRap__Otobu__3B75D760">
+          <End Role="OtobusBilgi_Tablosu" Type="Self.OtobusBilgi_Tablosu" Multiplicity="0..1" />
+          <End Role="GünlükRapor" Type="Self.GünlükRapor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusBilgi_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Principal>
+            <Dependent Role="GünlükRapor">
+              <PropertyRef Name="OtobusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OtobusKol__Koltu__2D27B809">
+          <End Role="Koltuklar_Tablosu" Type="Self.Koltuklar_Tablosu" Multiplicity="0..1" />
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koltuklar_Tablosu">
+              <PropertyRef Name="KoltukID" />
+            </Principal>
+            <Dependent Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="KoltukID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OtobusKol__Otobu__2C3393D0">
+          <End Role="OtobusBilgi_Tablosu" Type="Self.OtobusBilgi_Tablosu" Multiplicity="0..1" />
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusBilgi_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Principal>
+            <Dependent Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="OtobusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Rezer__36B12243">
+          <End Role="OtobusKoltukDuzeni_Tablosu" Type="Self.OtobusKoltukDuzeni_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OtobusKoltukDuzeni_Tablosu">
+              <PropertyRef Name="RezervID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="RezervID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Kalki__37A5467C">
+          <End Role="Sefer_Tablosu" Type="Self.Sefer_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sefer_Tablosu">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="KalkisYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SeferBilg__Varis__38996AB5">
+          <End Role="Sefer_Tablosu" Type="Self.Sefer_Tablosu" Multiplicity="0..1" />
+          <End Role="SeferBilgisi_Tablosu" Type="Self.SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sefer_Tablosu">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="VarisYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OTOBUSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GünlükRapor" EntityType="Self.GünlükRapor" />
+          <EntitySet Name="Koltuklar_Tablosu" EntityType="Self.Koltuklar_Tablosu" />
+          <EntitySet Name="OtobusBilgi_Tablosu" EntityType="Self.OtobusBilgi_Tablosu" />
+          <EntitySet Name="OtobusKoltukDuzeni_Tablosu" EntityType="Self.OtobusKoltukDuzeni_Tablosu" />
+          <EntitySet Name="Sefer_Tablosu" EntityType="Self.Sefer_Tablosu" />
+          <EntitySet Name="SeferBilgisi_Tablosu" EntityType="Self.SeferBilgisi_Tablosu" />
+          <AssociationSet Name="FK__GünlükRap__Otobu__3B75D760" Association="Self.FK__GünlükRap__Otobu__3B75D760">
+            <End Role="OtobusBilgi_Tablosu" EntitySet="OtobusBilgi_Tablosu" />
+            <End Role="GünlükRapor" EntitySet="GünlükRapor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OtobusKol__Koltu__2D27B809" Association="Self.FK__OtobusKol__Koltu__2D27B809">
+            <End Role="Koltuklar_Tablosu" EntitySet="Koltuklar_Tablosu" />
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OtobusKol__Otobu__2C3393D0" Association="Self.FK__OtobusKol__Otobu__2C3393D0">
+            <End Role="OtobusBilgi_Tablosu" EntitySet="OtobusBilgi_Tablosu" />
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Rezer__36B12243" Association="Self.FK__SeferBilg__Rezer__36B12243">
+            <End Role="OtobusKoltukDuzeni_Tablosu" EntitySet="OtobusKoltukDuzeni_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Kalki__37A5467C" Association="Self.FK__SeferBilg__Kalki__37A5467C">
+            <End Role="Sefer_Tablosu" EntitySet="Sefer_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SeferBilg__Varis__38996AB5" Association="Self.FK__SeferBilg__Varis__38996AB5">
+            <End Role="Sefer_Tablosu" EntitySet="Sefer_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+          <FunctionImport Name="RAPOR_BAS">
+            <Parameter Name="OtobusID" Mode="In" Type="Int32" />
+            <Parameter Name="Tarih" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasilat" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="Cinsiyet_Tablosu" EntityType="OTOBUSDBModel.Cinsiyet_Tablosu" />
+          <EntitySet Name="sysdiagrams" EntityType="OTOBUSDBModel.sysdiagram" />
+          <AssociationSet Name="FK__SeferBilg__Cinsi__628FA481" Association="OTOBUSDBModel.FK__SeferBilg__Cinsi__628FA481">
+            <End Role="Cinsiyet_Tablosu" EntitySet="Cinsiyet_Tablosu" />
+            <End Role="SeferBilgisi_Tablosu" EntitySet="SeferBilgisi_Tablosu" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cinsiyet_Tablosu">
+          <Key>
+            <PropertyRef Name="CinsiyetID" />
+          </Key>
+          <Property Name="CinsiyetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cinsiyet" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SeferBilgisi_Tablosu" Relationship="OTOBUSDBModel.FK__SeferBilg__Cinsi__628FA481" FromRole="Cinsiyet_Tablosu" ToRole="SeferBilgisi_Tablosu" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__SeferBilg__Cinsi__628FA481">
+          <End Type="OTOBUSDBModel.Cinsiyet_Tablosu" Role="Cinsiyet_Tablosu" Multiplicity="0..1" />
+          <End Type="OTOBUSDBModel.SeferBilgisi_Tablosu" Role="SeferBilgisi_Tablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cinsiyet_Tablosu">
+              <PropertyRef Name="CinsiyetID" />
+            </Principal>
+            <Dependent Role="SeferBilgisi_Tablosu">
+              <PropertyRef Name="CinsiyetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OTOBUSDBModelStoreContainer" CdmEntityContainer="OTOBUSDBEntities">
+          <EntitySetMapping Name="GünlükRapor">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.GünlükRapor">
+              <MappingFragment StoreEntitySet="GünlükRapor">
+                <ScalarProperty Name="RaporID" ColumnName="RaporID" />
+                <ScalarProperty Name="OtobusID" ColumnName="OtobusID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="ToplamHasilat" ColumnName="ToplamHasilat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Koltuklar_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.Koltuklar_Tablosu">
+              <MappingFragment StoreEntitySet="Koltuklar_Tablosu">
+                <ScalarProperty Name="KoltukID" ColumnName="KoltukID" />
+                <ScalarProperty Name="FiyatBilgisi" ColumnName="FiyatBilgisi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OtobusBilgi_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.OtobusBilgi_Tablosu">
+              <MappingFragment StoreEntitySet="OtobusBilgi_Tablosu">
+                <ScalarProperty Name="OtobusID" ColumnName="OtobusID" />
+                <ScalarProperty Name="OtobusModel" ColumnName="OtobusModel" />
+                <ScalarProperty Name="OtobusPlaka" ColumnName="OtobusPlaka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OtobusKoltukDuzeni_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.OtobusKoltukDuzeni_Tablosu">
+              <MappingFragment StoreEntitySet="OtobusKoltukDuzeni_Tablosu">
+                <ScalarProperty Name="RezervID" ColumnName="RezervID" />
+                <ScalarProperty Name="OtobusID" ColumnName="OtobusID" />
+                <ScalarProperty Name="KoltukID" ColumnName="KoltukID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sefer_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.Sefer_Tablosu">
+              <MappingFragment StoreEntitySet="Sefer_Tablosu">
+                <ScalarProperty Name="SehirID" ColumnName="SehirID" />
+                <ScalarProperty Name="Sehir" ColumnName="Sehir" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeferBilgisi_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.SeferBilgisi_Tablosu">
+              <MappingFragment StoreEntitySet="SeferBilgisi_Tablosu">
+                <ScalarProperty Name="CinsiyetID" ColumnName="CinsiyetID" />
+                <ScalarProperty Name="InfoID" ColumnName="InfoID" />
+                <ScalarProperty Name="RezervID" ColumnName="RezervID" />
+                <ScalarProperty Name="KalkisYeriID" ColumnName="KalkisYeriID" />
+                <ScalarProperty Name="VarisYeriID" ColumnName="VarisYeriID" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RAPOR_BAS" FunctionName="OTOBUSDBModel.Store.RAPOR_BAS" />
+          <EntitySetMapping Name="Cinsiyet_Tablosu">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.Cinsiyet_Tablosu">
+              <MappingFragment StoreEntitySet="Cinsiyet_Tablosu">
+                <ScalarProperty Name="Cinsiyet" ColumnName="Cinsiyet" />
+                <ScalarProperty Name="CinsiyetID" ColumnName="CinsiyetID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="OTOBUSDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

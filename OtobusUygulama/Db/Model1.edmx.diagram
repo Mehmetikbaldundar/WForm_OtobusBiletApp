@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="04a006a9465a497eba9b7496b8323876" Name="Diagram1">
+        <EntityTypeShape EntityType="OTOBUSDBModel.GünlükRapor" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.Koltuklar_Tablosu" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.OtobusBilgi_Tablosu" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.OtobusKoltukDuzeni_Tablosu" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.Sefer_Tablosu" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.SeferBilgisi_Tablosu" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__GünlükRap__Otobu__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__OtobusKol__Koltu__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__OtobusKol__Otobu__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__SeferBilg__Rezer__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__SeferBilg__Kalki__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__SeferBilg__Varis__38996AB5" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.Cinsiyet_Tablosu" Width="1.5" PointX="5.375" PointY="4.875" />
+        <EntityTypeShape EntityType="OTOBUSDBModel.sysdiagram" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="OTOBUSDBModel.FK__SeferBilg__Cinsi__628FA481" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
